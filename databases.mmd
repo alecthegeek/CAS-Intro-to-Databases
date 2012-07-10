@@ -1,0 +1,131 @@
+Title: Introduction to Databases
+Author: Alec Clews <alecclews@gmail.com>
+
+# Introduction to Databases
+
+XHTML XSLT: xhtml-toc-h2.xslt
+
+m4_changequote([[, ]])
+## Overview and Front Matter
+
+This course is part of the material to support students and mentors teaching computer science and applications in the school carriculm
+The examples in this course have been tested on Debian Linux.
+
+_* ####STATUS: EARLY DRAFT!!*_
+
+This document is still under development. Please help if you can at <https://github.com/alecthegeek/CAS-Intro-to-Databases>
+
+###Justification
+
+1. Databases are used in every area of computer systems and database systems is a core skill
+
+
+###Outcomes
+
+At the completion of this module students will be:
+
+1. Able to describe the charatertics of a database
+1. Describe the difference between an SQL and non-SQL database
+1. Understand how data is organised in RDMBMS (schemas, tables, 3rd normal form)
+1. Capable, with reference to notes and documentation, of using SQL statements to:
+	1. Create tables
+	1. Insert data into tables
+	1. Execute basic select statements wth a single join and simple where clause
+    1. Create a Python program to display the data (optional)
+
+#####Not covered
+
+1. Key contraints
+1. Complex Joins
+1. Relational algebra and words like tuple and entities (prefer rows and tables)
+
+### Suggested Approach
+
+Much of this work is theoritical by it's nature. However mentors should introduce the practical exercices as early as possible to break the material up
+
+It would be useful if students had some understanding of the following topics:
+1. Using a text editor (open a file, find a line, search for text, make a simple change, save a file)
+1. Understand files and directories
+1. Some exposure to using the command line interface would be useful
+
+##Introduction
+###What is Database System
+
+###Some example applications
+
+
+1. Running a companies accounting and stoke management system
+1. Storing a users browser history in the Firefox browser (an embedded database)
+
+
+##Relational Database Management Systems
+
+###Overview
+
+Organised data store
+
+Application idendepent
+
+Scalable
+
+ACID ,Data Integrity and Securtiy
+
+####Examples
+
+Company Database that contains
+
+1. Customer details
+1. Stock levels
+1. Supplier details
+1. Cusomer orders
+1. Payment details aged debter details
+
+####Counter Examples
+
+1. Subversion Database
+
+Applicaiton specific.
+
+###Client Server Model
+A breif review of client server computing and the context of a RDBMS in that model. Presented as a historical discussion (0-tier, 2-tier, 3 tier, n-tier)
+
+###Tables and Queries
+
+###SQL Standards
+
+DDL vs DML
+
+####Introduction to SQLite3
+
+
+Example DDL
+
+        create table......
+
+Example DML
+
+        insert into ......
+
+        select * from ........
+
+Example Python Script to perform a select from above data
+
+##Other components of RDBMS
+
+Examples from Oracle and PostgreSQL
+
+##Writing Database Applications
+
+Data design
+
+Data validation
+
+Efficiency
+
+Reports
+
+Application Writing Tools
+
+##Database Administration
+
+The role of the DBA

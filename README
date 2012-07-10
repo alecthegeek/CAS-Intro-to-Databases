@@ -1,0 +1,23 @@
+The Database Concept
+
+Describe a database as a persistent organised store of data
+
+Explain the use of data handling software to create, maintain and interrogate a database.
+
+The DBMS
+
+Describe how a DBMS allows the separation of data from applications and why this is desirable
+
+Describe the principal features of a DBMS and how they can be used to create customised data handling applications
+
+Relational Databases
+
+Understand the relationship between entities and tables
+
+Understand the components of a relational database, such as tables, forms, queries, reports and modules
+
+understand the logical operators in framing database queries
+
+Explain the use of key fields to connect tables and avoid data redundancy
+
+Describe methods of validating data as it is input
