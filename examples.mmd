@@ -1,0 +1,276 @@
+Examples of using a Relational Database 
+=======================================================================================
+
+These examples use a free database system called SQLite. SQLite is very east to set up
+and use. It is an embedded database and does not use a separate server program.
+
+SQLite is used by programs like the Firefox browser to store information on computers
+and smartphones. It's a real database that supports SQL query language, but it's easy
+to manage.
+
+If you want to use something a little larger then it would not be difficult,
+once the software is set up correctly,
+to use these examples with a client/server database system such as PosgresQL or MySQL.
+That is left as an exercise for the student or teacher
+
+Make Sure you have SQLite installed
+---------------------------------------------------------------------------------
+
+If you are using a Raspberry Pi or other Linux system you can install SQLite using the package manager with a command like
+
+        apt-get install sqlite3
+
+If you are using MS Windows you can download the software from http://sqlite.com/download.html
+(scroll down to "Precompiled Binaries For Windows").
+
+If you are using Mac OS X then you can install from the page as Windows above
+("Precompiled Binaries For Mac OS X (x86)") or you install via HomeBrew (http://mxcl.github.com/homebrew/)
+
+
+Running SQLite3 from the command line
+---------------------------------------------------------------------------------
+
+We will be running the SQlite from the command line.
+
+TODO: Add instructions  on starting the command line
+
+I've found some interesting data about the sales of Harry Potter books and movies at
+http://www-958.ibm.com/software/data/cognos/manyeyes/datasets/harry-potter-films-and-books-how-d/versions/1.
+I am going to store the information in a database so that I can some interesting things with it.
+
+Start the main SQLite program by typing
+
+        sqlite3  harrypotter.sql3
+
+`harrypotter.sql3` is the name of the new database file that will contain the database tables and the information needs to manage them.
+
+Inserting data into a SQLite3 database
+---------------------------------------------------------------------------------
+The first thing I need is a table to store the date. At the SQLite command prompt I can type
+
+    create table harryPotterSales
+       ...> (name varchar(70),
+       ...> mediatype varchar(10),
+       ...> gbpsales float);
+
+Some things to note.
+
+1) This is an example of a Data Definition Language (DDL) SQL statement -- it does not modify data directly.
+Instead it adds a new structure to the database.
+
+2) SQL statements in SQLite are terminated by a semicolon (this is a common practice) and until a line ends with ';'
+SQLite just keeps prompting us for more with '...>'
+
+3) Every piece of information in an RDBMS has a data type. We are only floating point numbers and strings here. We'll see other data types later
+
+You can verify the structure of your table (in SQLite) with `pragma table_info(harryPotterSales);`.
+From the SQLite online documentation at
+http://www.sqlite.org/pragma.html#pragma_table_info `This pragma returns one row for each column in the named table.
+Columns in the result set include the column name, data type, whether or not the column can be NULL, and the default value for the column.`
+
+Now lets load some data. The command to add new rows to a table is `insert`. For instance
+
+        insert into harryPotterSales
+           ...> (name, mediatype, gbpsales)
+           ...> values (
+           ...> 'Harry Potter and the Philospher''s Stone',
+           ...> 'book',
+           ...> 19.85);
+
+Notice how we had to put quotation marks together in Philospher's so that SQL wouldn't think it was the end of the string.
+This is called 'escaping' a character -- switching off it's special meaning.
+
+
+Reading data from a database
+---------------------------------------------------------------------------------
+
+You can get the information out from a database table using the select statement -- select to read data, insert to add new data.
+For example
+
+        select name, mediatype, gbpsales
+           ...> from harryPotterSales;
+        Harry Potter and the Philospher's Stone|book|19.85
+
+You can also change the order that columns are displayed and restrict which columns are displayed. Here are some examples
+
+        select gbpsales, name, mediatype
+           ...> from harryPotterSales;
+        19.85|Harry Potter and the Philospher's Stone|book
+
+
+        select name, mediatype
+           ...> from harryPotterSales;
+        Harry Potter and the Philospher's Stone|book
+
+
+Often you want to see the data in *all* the columns of a table and there is an easy shorthand for that
+
+
+        select *
+           ...> from harryPotterSales;
+        Harry Potter and the Philospher's Stone|book|19.85
+
+
+Getting meaning from data
+---------------------------------------------------------------------------------
+
+For the moment let's delete all the data in the harryPotterSalestable and reload first
+
+        delete from harryPotterSales;
+
+This deletes all the rows of data from harryPotterSales.
+
+Later on we'll see how to delete data with more control as well as how to change data, but for now let's get the rest of the data loaded.
+
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Chamber of Secrets', 'Book' , 16.22);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Prisoner of Azkaban', 'Book' , 14.14);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Goblet of Fire', 'Book' , 10.74);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Order of the Phoenix', 'Book' , 33.92);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Half-Blood Prince', 'Book' , 28.03);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Deathly Hallows', 'Book' , 25.02);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Philosopher''s Stone', 'Film' , 66.1);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Chamber of Secrets', 'Film' , 54.78);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Prisoner of Azkaban', 'Film' , 46.08);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Goblet of Fire', 'Film' , 49.2);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Order of the Phoenix', 'Film' , 49.43);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Half-Blood Prince', 'Film' , 50.72);
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Deathly Hallows: Part 1', 'Film' , 50.6);
+
+Check that the data was loaded
+
+        select * from harryPotterSales;
+        Harry Potter and the Philospher's Stone|Book|19.85
+        Harry Potter and the Chamber of Secrets|Book|16.22
+        Harry Potter and the Prisoner of Azkaban|Book|14.14
+        Harry Potter and the Goblet of Fire|Book|10.74
+        Harry Potter and the Order of the Phoenix|Book|33.92
+        Harry Potter and the Half-Blood Prince|Book|28.03
+        Harry Potter and the Deathly Hallows|Book|25.02
+        Harry Potter and the Philosopher's Stone|Film|66.1
+        Harry Potter and the Chamber of Secrets|Film|54.78
+        Harry Potter and the Prisoner of Azkaban|Film|46.08
+        Harry Potter and the Goblet of Fire|Film|49.2
+        Harry Potter and the Order of the Phoenix|Film|49.43
+        Harry Potter and the Half-Blood Prince|Film|50.72
+        Harry Potter and the Deathly Hallows: Part 1|Film|50.6
+
+
+Let's try something simple by looking at the sales data
+
+        select gbpsales from harryPotterSales;
+            19.85
+        16.22
+        14.14
+        10.74
+        33.92
+        28.03
+        25.02
+        66.1
+        54.78
+        46.08
+        49.2
+        49.43
+        50.72
+        50.6
+
+I wonder what the total sales are? SQL provides various calculation functions to help us,
+in this case the sum() function
+
+        select sum(gbpsales) from harryPotterSales;
+        514.83
+
+So based on this data the Harry Potter franchise earned over half a billion pounds (this list does not include the last movie either).
+
+Let's dive deeper by using the group by clause. 
+
+        select mediatype, sum(gpbsales)
+        ...> from harryPotterSales
+        ...> group by mediatype;
+        Book|147.92
+        Film|366.91
+
+The first thing to know is that you can only use group with aggregate function like sum(). Her is another example
+
+        select mediatype, avg(sales)
+        ...> from harryPotterSales
+        ...> group by mediatype;
+        Book|21.1314285714286
+        Film|52.4157142857143
+
+This shows the average earnings for the books and films.
+More information about the `group by` clause at http://www.w3schools.com/sql/sql_groupby.asp
+
+A very important clause is the `where`. This is used to restrict the query to only return certain rows.
+For example to only look at film data
+
+        select name, gbpsales
+           ...> from harryPotterSales
+           ...> where mediatype is 'Book';
+        Harry Potter and the Philospher's Stone|19.85
+        Harry Potter and the Chamber of Secrets|16.22
+        Harry Potter and the Prisoner of Azkaban|14.14
+        Harry Potter and the Goblet of Fire|10.74
+        Harry Potter and the Order of the Phoenix|33.92
+        Harry Potter and the Half-Blood Prince|28.03
+        Harry Potter and the Deathly Hallows|25.02
+
+So what was the highest and lowest earning book?
+
+        select max(gbpsales), min(gbpsales)
+           ...> from harryPotterSales
+           ...> where mediatype is 'Book';
+        33.92|10.74
+
+and the difference between the two?
+
+        select max(gbpsales), min(gbpsales), max(gbpsales)-min(gbpsales)
+           ...> from harryPotterSales
+           ...> where mediatype is 'Book';
+        33.92|10.74|23.18
+
+You can try the same thing for Films as well.
+
+Now I looked up some data for the last Harry Potter movie so let's add that data
+
+        sqlite> insert into harryPotterSales VALUES ('Harry Potter and the Deathly Hallows: Part 2', 'Film' , 1327.9);
+
+Now I have all the data I need about the films. But something is not quite right -- I picked up the price in
+US $, but all the other values are in GP Pounds. I need to change the data using an `update` statement.
+
+The syntax for the update statement (from http://www.w3schools.com/sql/sql_update.asp) is
+
+        UPDATE table_name
+        SET column1=value, column2=value2,...
+        WHERE some_column=some_value
+
+so if I assume an exchange rate of 1.58 to the GBP we could write a statement like
+
+        update harrPotterSales
+        set gbpsales =  1327.9/1.58
+        where title = 'Harry Potter and the Deathly Hallows: Part 2';
+
+This works fine, but it's very cumbersome to use the name field as the primary key.
+It is also very easy to get the title wrong which could lead to data errors.
+As an example consider who we would make a change to the sales numbers for the book 'Harry Potter and the Goblet of Fire'
+
+The recommended way is to add an extra column to the table that has unique number for each row.
+We can then use this new column as the primary key,
+whereas previously we would have needed to use the title and media fields to create a unique index.
+
+The way to solve this problem varies. Often the DBA will need to create the required column and application
+programs will need to the maintain it as they modify information in the database.
+However often RDBMS software will automatically create and maintain a column for us which can do a lot of the work.
+In SQLite this hidden column is called the ROWID and we can see it with
+
+        select rowid, *  from harryPotterSales;
+
+So now the update command be written at 
+
+        update harryPotterSales
+        set gbpsales =  1327.9/1.58
+        where rowid = 14;
+
+which is much easier to write and get right :-).
+
+It's important to notice that in this simple example the rowid looks very much like a primary key, but in a more complex example
+the primary key would probably be maintained as a separate column (which by convention is often called the uid) as mentioned above.

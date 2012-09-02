@@ -6,11 +6,9 @@
 
 export DEV_DIR:=$(CURDIR)
 
-
-
 mmdxsltbase=$(HOME)/Library/Application Support/MultiMarkdown/bin
 
-all: databases.html
+all: databases.html examples.html
 
 clean:
 	-rm *.html *.pdf *.tex 
